@@ -11,6 +11,4 @@ class Key extends React.Component {
   } 
 }
 
-// onClick={this.props.handleNumericKeyPress(this.props.keyValue)}
-
 export default Key;

@@ -9,7 +9,7 @@ class Keyboard extends React.Component {
     ["1", "2", "3"],
     ["0", ".", "-"],
   ]
-  sideKeys =  ["CLEAR", "\u00F7", "\u00D7", "\u2212", "\u002B", "="];
+  sideKeys =  ["\u00F7", "\u00D7", "\u2212", "\u002B"];
   render() {
     return (
       <div>
@@ -30,6 +30,13 @@ class Keyboard extends React.Component {
           })}
         </table>
         <table className="side-keyboard">
+          <tr>
+            <td>
+              <button onClick={this.props.handleClearPress}>
+                CLEAR
+              </button>
+            </td>
+          </tr>
           {this.sideKeys.map((key) => {
             return (
                 <tr>
@@ -40,6 +47,13 @@ class Keyboard extends React.Component {
                 </tr>
               );
           })}
+          <tr>
+            <td>
+              <button onClick={this.props.handleEnterPress}>
+                =
+              </button>
+            </td>          
+          </tr>
         </table>
       </div>
     );

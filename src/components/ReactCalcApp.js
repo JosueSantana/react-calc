@@ -7,42 +7,27 @@ import Display from './Display';
 class ReactCalcApp extends React.Component {
   state= {
     displayExpression: [],
-    result: undefined
+    result: undefined,
+    error: undefined
   };
 
   handleNumericKeyPress = (inputKey) => {
     this.setState((prevState) => {
-        if (inputKey === "CLEAR") {
-          return {
-            displayExpression: [],
-            result: undefined
-          }
-        } else if (inputKey === "="){
-          try {
-            const modifiedOperators = prevState.displayExpression.map((token) => {
-              if(token === "\u00F7") { return "/" }
-              else if(token === "\u00D7") { return "*" }
-              else if(token === "\u2212" ) { return "-" }
-              else if(token === "\u002B") { return "+"}
-              else {return token};
-            });
-            const parsedValue = Parser.parse(modifiedOperators.join("")).evaluate();
-
-            return {
-              displayExpression: [],
-              result: parsedValue
-            }
-          } catch (e) {
-            return {
-              result: undefined 
-            }
-          }
-        }
-
         if(!prevState.displayExpression){
           return {
             displayExpression: [inputKey]
           }
+        }
+
+        if(prevState.result){
+          return {
+            displayExpression: [prevState.result].concat([inputKey]),
+            result: undefined
+          }
+        }
+
+        if(prevState.displayExpression.length === 50){
+          return prevState;
         }
 
         return  {
@@ -53,16 +38,62 @@ class ReactCalcApp extends React.Component {
     );
   };
 
+  handleClearPress = () => {
+    this.setState((prevState) => {
+      if(prevState.error){
+        return {
+          error: undefined
+        }
+      }
+      return {
+        displayExpression: [],
+        result: undefined
+      }
+    });
+  }
+  handleEnterPress = () => {
+    this.setState((prevState) => {
+      if(prevState.result){
+        return prevState;
+      }
+      try {
+        const modifiedOperators = prevState.displayExpression.map((token) => {
+          if(token === "\u00F7") { return "/" }
+          else if(token === "\u00D7") { return "*" }
+          else if(token === "\u2212" ) { return "-" }
+          else if(token === "\u002B") { return "+"}
+          else {return token};
+        });
+        const parsedValue = Parser.parse(modifiedOperators.join("")).evaluate();
+        
+        if(parsedValue === Infinity){
+          return{
+            error: "DIVIDE BY 0 ERROR"
+          }
+        }
+        return {
+          result: parsedValue
+        }
+      } catch (e) {
+        return {
+          error: "SYNTAX ERROR"
+        }
+      }
+    });
+  }
+
   render(){
     return (
       <div className="container">
         <Display 
           displayExpression={this.state.displayExpression}
           result={this.state.result}
+          error={this.state.error}
         />
         <Keyboard 
           handleNumericKeyPress={this.handleNumericKeyPress}
-          prop1={5}
+          handleClearPress={this.handleClearPress}
+          handleEnterPress={this.handleEnterPress}
         />
       </div>
     );
