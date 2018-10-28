@@ -36,4 +36,7 @@
 
 .keyboard .keyboard__side button {
   margin-bottom: 2rem;
+  background-color: $arsenic;
+  border-bottom: 0.2rem solid darken($arsenic, 20%);
+  color: $isabelline;
 }

@@ -65,8 +65,9 @@ class ReactCalcApp extends React.Component {
           else {return token};
         });
         const parsedValue = Parser.parse(modifiedOperators.join("")).evaluate();
-        
-        if(parsedValue === Infinity){
+        console.log(parsedValue);
+
+        if(parsedValue === Infinity || isNaN(parsedValue)){
           return{
             error: "DIVIDE BY 0 ERROR"
           }
