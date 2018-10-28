@@ -85,16 +85,18 @@ class ReactCalcApp extends React.Component {
   render(){
     return (
       <div className="container">
-        <Display 
-          displayExpression={this.state.displayExpression}
-          result={this.state.result}
-          error={this.state.error}
-        />
-        <Keyboard 
-          handleNumericKeyPress={this.handleNumericKeyPress}
-          handleClearPress={this.handleClearPress}
-          handleEnterPress={this.handleEnterPress}
-        />
+        <div className="container__shape">
+          <Display 
+            displayExpression={this.state.displayExpression}
+            result={this.state.result}
+            error={this.state.error}
+          />
+          <Keyboard 
+            handleNumericKeyPress={this.handleNumericKeyPress}
+            handleClearPress={this.handleClearPress}
+            handleEnterPress={this.handleEnterPress}
+          />
+        </div>
       </div>
     );
   }

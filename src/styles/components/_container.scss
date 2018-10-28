@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  min-width: auto;
+  max-width: 50rem;
+  margin: 0 auto;
+  justify-content: center;
+  
+}
+
+.container__shape {
+  margin-top: 2rem;
+  padding: 4rem 1.5rem 1rem 1.5rem;
+  border-top: 0.5rem solid $dodger-blue;
+  border-top: 0.5rem solid $dodger-blue;
+  border-right: 0.5rem solid $brandeis-blue;
+  border-bottom: 0.5rem solid $brandeis-blue;
+  border-radius: 5%;
+  background-color: #1E90FF;
+}

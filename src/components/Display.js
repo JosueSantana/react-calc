@@ -6,14 +6,14 @@ class Display extends React.Component {
       <div className="display-pane">
         {(
           this.props.error ? 
-            <p>{this.props.error}</p> : 
-            <div>
-              <p>
+            <div className="display-pane__error">{this.props.error}</div> : 
+            <div className="display-pane__valid">
+              <div className="display-pane__expr">
                 {this.props.displayExpression.join("")}
-              </p>
-              <p>
+              </div>
+              <div className="display-pane__result">
                 {!isNaN(this.props.result) && this.props.result}
-              </p>
+              </div>
             </div>
           )} 
       </div>

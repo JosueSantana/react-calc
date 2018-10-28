@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+
+.keyboard {
+  display: flex; 
+}
+
+.keyboard__main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.keyboard__main__row {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+}
+
+.keyboard__side {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 1rem;
+}
+
+.keyboard button {
+  border: none;
+  border-bottom: 0.2rem solid darken($isabelline, 20%);
+  border-radius: 15%;
+  background-color: $isabelline;
+  font-family: "Roboto Mono", monospace;
+  font-size: $l-size;
+  min-width: $xl-size;
+  box-shadow: 0 1.5rem darken(#1E90FF, 10%);
+}
+
+.keyboard .keyboard__side button {
+  margin-bottom: 2rem;
+}
