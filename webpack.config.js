@@ -1,30 +1,65 @@
 const path = require('path');
-const localPath = path.join(__dirname, "public");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-//TODO: Figure out how to minify the bundle file
+process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
-module.exports = {
-  entry: "./src/app.js",
-  output: {
-    path: localPath,
-    filename: "bundle.js"
-  },
-  module: {
-    rules: [{
-      loader: 'babel-loader',
-      test: /\.js$/,
-      exclude: /node_modules/
-    }, {
-      test: /\.s?css$/,
-      use: [
-        "style-loader",
-        "css-loader",
-        "sass-loader"
-      ]
-    }]
-  },
-  devtool: 'cheap-module-eval-source-map',
-  devServer: {
-    contentBase: localPath
-  }
+if (process.env.NODE_ENV === "test") {
+  require("dotenv").config({ path: '.env.test'});
+} else if (process.env.NODE_ENV === "development"){
+  require('dotenv').config({ path: ".env.development"});
+}
+
+module.exports = (env) => {
+  const isProduction = env === 'production';
+  const CSSExtract = new MiniCssExtractPlugin({
+    filename: 'styles.css'
+  });
+
+  return {
+    entry: "./src/app.js",
+    output: {
+      path: path.join(__dirname, 'public', 'dist'),
+      filename: 'bundle.js'
+    },
+    module: {
+      rules: [{
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },{
+        test: /\.s?css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true
+            }
+          }
+        ]
+      }]
+    },
+    plugins: [
+      CSSExtract
+    ],
+    devtool: isProduction ? 'source-map' : 'inline-source-map',
+    devServer: {
+      contentBase: path.join(__dirname, 'public'),
+      historyApiFallback: true,
+      publicPath: '/dist/'
+    }
+  };
 };
